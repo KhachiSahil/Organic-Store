@@ -1,0 +1,94 @@
+"use client"
+import ProductCard from "./ProductCard"
+import { useZoomImageMove } from "@zoom-image/react"
+import { useEffect, useRef, useState } from "react"
+
+export default function Home() {
+    const [isDisc, setIsDisc] = useState<Boolean>(true)
+    const [rating, setRating] = useState(0)
+    const imageMoveContainerRef = useRef<HTMLDivElement>(null)
+    const { createZoomImage: createZoomImageMove } = useZoomImageMove()
+    useEffect(() => {
+        const imageContainer = imageMoveContainerRef.current as HTMLDivElement
+        createZoomImageMove(imageContainer, {
+            zoomImageSource: "/coffee-asorted-300x300.jpg",
+        })
+    }, [])
+    return (
+        <div className="bg-gray-100 justify-center items-center">
+            <div className="flex gap-10 flex-wrap flex-col md:flex-row justify-center items-center pt-10">
+                <div className="min:w-3/12 w-3/12 h-4/12">
+                    <div ref={imageMoveContainerRef} className="relative h-[300px] w-[200px] cursor-pointer overflow-hidden">
+                        <img className="h-full w-full" alt="Large Pic" src="/coffee-asorted-300x300.jpg" />
+                    </div>
+                </div>
+                <div className="flex flex-col gap-9 min:w-3/12 w-5/12">
+                    <div className="text-4xl font-semibold mt-5">Assorted Coffee</div>
+                    <div className="text-xl font-bold">$35<span className="font-normal">+Free Shipping</span></div>
+                    <div>Experience the rich and diverse flavors of our assorted coffee collection. Each blend is carefully selected from the finest coffee beans around the world, offering a unique taste adventure in every cup. </div>
+                    <div>
+                        <input className="w-10 mr-7" type="number" defaultValue="1" />
+                        <button className="bg-lime-700 p-2 w-64 hover:bg-lime-500 rounded-md text-white font-bold">ADD TO CART</button>
+                    </div>
+                    <div className=" border-t-2">Categories:<span className="text-lime-500 ">Juices,Groceries</span></div>
+                </div>
+            </div>
+            <div className="mt-14">
+                <div className="flex gap-5 m-14 justify-center items-center pr-10">
+                    <div className="border font-bold bg-slate-300 p-3 rounded-md cursor-pointer hover:bg-slate-200 active:border-lime-600" onClick={() => {
+                        setIsDisc(true)
+                    }}>Description</div>
+                    <div className="border font-bold bg-slate-300 p-3 rounded-md cursor-pointer hover:bg-slate-200 active:border-lime-600" onClick={() => {
+                        setIsDisc(false)
+                    }}>Reviews</div>
+                </div>
+                <div className="flex items-center justify-center">
+                    {isDisc ? <div className="m-3 text-xl w-1/2 rounded-md bg-slate-200 p-7 font-medium font-serif">
+                        Experience the rich and diverse flavors of our assorted coffee collection. Each blend is carefully selected from the finest coffee beans around the world, offering a unique taste adventure in every cup.
+                    </div> :
+                        <div className="md:w-1/2 bg-slate-200 flex flex-col justify-center items-center p-5 rounded-md">
+                            <div>There is no review yet</div>
+                            <div className="md:w-1/2">
+                                <form>
+                                    <div className="m-3">
+                                        {[1, 2, 3, 4, 5].map((star) => {
+                                            return (
+                                                <span
+                                                    className='start'
+                                                    style={{
+                                                        cursor: 'pointer',
+                                                        color: rating >= star ? 'green' : 'gray',
+                                                        fontSize: `25px`,
+                                                    }}
+                                                    onClick={() => {
+                                                        setRating(star)
+                                                    }}
+                                                >
+                                                    {' '}
+                                                    ★{' '}
+                                                </span>
+                                            )
+                                        })}
+                                    </div>
+                                    <div className="flex flex-col gap-5">
+                                    <textarea className="border border-black resize rounded-md p-2" placeholder="Review" required></textarea>
+                                    <input className="border border-black p-2 rounded-md" type="text" placeholder="Name" required />
+                                    <input className="border border-black p-2 rounded-md"type="Email" placeholder="email" required />
+                                    <input className="bg-lime-700 hover:bg-lime-600 p-2 text-white font-bold rounded-md" type="Submit" value="Submit" />
+                                    </div>
+                                </form>
+                            </div>
+                        </div>}
+                </div>
+            </div>
+            <div className="flex flex-col justify-start  mt-14 pb-10">
+                <div className=" text-2xl md:text-4xl block font-semibold ml-2 md:ml-64">Related Products</div>
+                <div className="flex flex-wrap gap-5 mt-3 justify-center">
+                    <ProductCard />
+                    <ProductCard />
+                    <ProductCard />
+                </div>
+            </div>
+        </div>
+    )
+}
