@@ -6,7 +6,7 @@ export default function () {
                     <img src="organic-products-hero.png" />
                 </div>
                 <div>
-                    <div className=" flex ml-10 flex-col text-center place-items-center justify-center md:text-left md:place-items-start md:justify-start">
+                    <div className=" flex  flex-col text-center place-items-center justify-center md:text-left md:place-items-start md:justify-start">
                         <img src="logo-leaf-new.png" />
                         <div className="font-medium text-xl md:text-2xl mt-4">Best Quality Products</div>
                         <div className="font-bold text-5xl md:text-7xl mt-7">Join The Organic <br></br> Movement!</div>

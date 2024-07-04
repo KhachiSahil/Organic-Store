@@ -3,11 +3,18 @@ import Blackcard from "@/components/Blackcard";
 import Homepage from "@/components/Homepage";
 import ProductCard from "@/components/ProductCard";
 import ReviewsCard from "@/components/ReviewsCard";
+import Image from 'next/image'
+import Leaf from "@/public/logo-leaf-new.png"
+import { getServerSession } from "next-auth"
+import { NEXT_AUTH_CONFIG } from "@/app/lib/auth";
 
-
-
-
-const Home: React.FC = () => {
+async function getUser() {
+  const session = await getServerSession(NEXT_AUTH_CONFIG);
+  return session;
+}
+const Home: React.FC = async () => {
+  const session = await getUser();
+  console.log(session)
   return (
     <>
       <Homepage />
@@ -81,7 +88,7 @@ const Home: React.FC = () => {
       <div className="flex justify-center items-center mt-20 flex-col">
         <div className="text-5xl font-semibold">Best Selling Products</div>
         <div className="mt-12">
-          <img src="/logo-leaf-new.png" />
+          <Image src={Leaf} alt="missing" />
         </div>
         <div className=" flex flex-wrap gap-5 mt-10 justify-center">
           <ProductCard />
@@ -94,7 +101,7 @@ const Home: React.FC = () => {
   <div className="p-5 flex justify-center items-center mt-20 flex-col">
     <div className="text-3xl md:text-5xl font-semibold mt-9 text-center">Customers Reviews</div>
     <div className="mt-12">
-      <img src="/logo-leaf-new.png" className="mx-auto" />
+      <Image src={Leaf} alt="Failed" className="mx-auto" />
     </div>
   </div>
   <div className="flex flex-wrap justify-center gap-4 p-8">

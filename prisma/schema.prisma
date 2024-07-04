@@ -1,0 +1,100 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Admin {
+  AdminID  Int    @id @default(autoincrement())
+  Email    String @db.VarChar(100) @unique
+  Password String @db.VarChar(255)
+}
+
+
+model Users{
+  UserID Int @id @default(autoincrement())
+  UserName String @db.VarChar(50)
+  Email String @db.VarChar(100) @unique
+  PasswordHash String @db.VarChar(255)
+  Orders Orders []
+  Review Reviews []
+  Cart Cart []
+}
+
+model Categories{
+  CategoryID Int @id @default(autoincrement())
+  CategoryName String @db.VarChar(50)
+  Description String?
+  Products     Products[]
+}
+
+model Products {
+  ProductID    Int        @id @default(autoincrement())
+  CategoryID   Int
+  ProductName  String     @db.VarChar(100)
+  Description  String?
+  Price        Float      @db.DoublePrecision
+  Stock        Int
+  ImageUrl     String
+  Category     Categories @relation(fields: [CategoryID], references: [CategoryID])
+  OrderItems OrderItems []
+  Review Reviews []
+  CartItems CartItems []
+}
+
+model Orders{
+  OrderID Int @id @default(autoincrement())
+  UserID Int
+  OrderDate DateTime @updatedAt
+  TotalAmount Float @db.DoublePrecision
+  Status String
+  Users Users @relation(fields: [UserID],references: [UserID])
+  OrderItems OrderItems []
+}
+
+model OrderItems{
+  OrderItemId Int @id @default(autoincrement())
+  OrderID Int
+  ProductID Int
+  Quantity Int
+  Price Float @db.DoublePrecision
+  Orders Orders @relation(fields: [OrderID],references: [OrderID])
+  Products Products @relation(fields: [ProductID], references: [ProductID])
+}
+
+model Reviews {
+  ReviewID Int @id @default(autoincrement())
+  ProductID Int
+  UserID Int
+  Rating Int 
+  Comment String 
+  CreatedAt DateTime @updatedAt
+  Products Products @relation(fields: [ProductID],references: [ProductID])
+  Users Users @relation(fields: [UserID],references: [UserID]) 
+}
+
+model Cart{
+  CardID Int @id @default(autoincrement())
+  UserID Int
+  CreatedAt DateTime @updatedAt
+  Users Users @relation(fields: [UserID],references: [UserID])
+  CartItems CartItems []
+}
+
+model CartItems{
+  CartItemID Int @id @default(autoincrement())
+  CardID Int
+  ProductID Int
+  Quantity Int
+  Cart Cart @relation(fields: [CardID],references: [CardID])
+  Products Products @relation(fields: [ProductID],references: [ProductID])
+}
