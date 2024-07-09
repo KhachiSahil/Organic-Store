@@ -1,62 +1,97 @@
-
+"use client"
 import { useState } from "react";
 import { signIn } from "next-auth/react";
-import signup from "@/app/actions/signup";
-import { redirect, useRouter } from "next/navigation";
+import signup from "@/actions/signup";
+import { useRouter } from "next/navigation";
+import { z } from 'zod';
+import Link from "next/link";
 
+export default function SignupPage() {
+    const UserSchema = z.object({
+        username: z.string()
+            .nonempty({ message: "Username cannot be empty" })
+            .regex(/^[a-zA-Z0-9]+$/, { message: "Username must be alphanumeric" }),
+        email: z.string()
+            .email({ message: "Invalid email address" }),
+        password: z.string()
+            .min(8, { message: "Password must be at least 8 characters long" })
+            .regex(/^[a-zA-Z0-9]+$/, { message: "Password must include at least one uppercase letter, one lowercase letter, one number, and one special character" })
+    });
+    type UserSchemaType = z.infer<typeof UserSchema>;
 
-export default function () {
     const router = useRouter();
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [username, setUsername] = useState('');
-    const data = {
-        email,
-        password,
-        username
-    }
+    const [errors, setErrors] = useState<{ [key: string]: string }>({});
 
-    async function handleSubmit(event: any) {
+    async function handleSubmit(event: React.SyntheticEvent) {
         event.preventDefault();
-        const response = await signup(data)
-        if (response.success) {
-            router.push("/Dashboard")
-        } else {
-            alert("An error occured")
+        const parseResult = UserSchema.safeParse({ email, password, username });
+        if (!parseResult.success) {
+            const errorMessages: { [key: string]: string } = {};
+            parseResult.error.errors.forEach(error => {
+                errorMessages[error.path[0] as string] = error.message;
+            });
+            setErrors(errorMessages);
+            return;
+        }
+
+        try {
+            const response = await signup(parseResult.data);
+            if (response.success) {
+                router.push("/signin");
+            } else {
+                alert("User already exists");
+            }
+        } catch (error) {
+            alert("An error occurred during signup");
         }
     }
+
     return (
         <div className="bg-leaf bg-no-repeat h-screen w-screen bg-right-bottom align-middle">
             <img src="organic-store-logo5.svg" className="absolute" alt="Logo" />
             <div className="flex justify-center h-screen align-middle items-center bg-transparent">
                 <div className="flex flex-col border-2 border-slate-300 shadow-2xl rounded-lg gap-8 items-center p-10 bg-slate-100">
-                    <form onSubmit={handleSubmit} className="flex flex-col gap-8">
-                        <input
-                            type="text"
-                            value={username}
-                            onChange={(e) => setUsername(e.target.value)}
-                            className="shadow-lg px-3 py-5 font-semibold rounded-md"
-                            placeholder="Username"
-                        />
-                        <input
-                            type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
-                            className="shadow-lg px-3 py-5 font-semibold rounded-md"
-                            placeholder="Email "
-                        />
-                        <input
-                            type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
-                            className="shadow-lg px-3 py-5 font-semibold rounded-md"
-                            placeholder="Password"
-                        />
-                        <input
+            <div className="font-medium">Already have an account? <Link className="text-cyan-600 hover:underline" href="/signin">Signin</Link></div>
+                    <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+                        <div className="flex flex-col gap-1">
+                            <input
+                                type="text"
+                                value={username}
+                                onChange={(e) => setUsername(e.target.value)}
+                                className="shadow-lg px-3 py-5 font-semibold rounded-md"
+                                placeholder="Username"
+                            />
+                            {errors.username && <span className="text-red-500 w-64">{errors.username}</span>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <input
+                                type="email"
+                                value={email}
+                                onChange={(e) => setEmail(e.target.value)}
+                                className="shadow-lg px-3 py-5 font-semibold rounded-md"
+                                placeholder="Email"
+                            />
+                            {errors.email && <span className="text-red-500 w-64">{errors.email}</span>}
+                        </div>
+                        <div className="flex flex-col gap-1">
+                            <input
+                                type="password"
+                                value={password}
+                                onChange={(e) => setPassword(e.target.value)}
+                                className="shadow-lg px-3 py-5 font-semibold rounded-md"
+                                placeholder="Password"
+                            />
+                            {errors.password && <span className="text-red-500 w-64">{errors.password}</span>}
+                        </div>
+                        <button
                             type="submit"
-                            onClick={handleSubmit}
                             className="shadow-xl bg-lime-400 hover:bg-lime-700 text-white font-semibold px-14 py-2 rounded-md"
-                        />
+                        >
+                            Submit
+                        </button>
                     </form>
                     <button
                         onClick={() => signIn('google', { callbackUrl: '/Dashboard' })}

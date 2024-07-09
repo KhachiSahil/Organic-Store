@@ -21,9 +21,9 @@ export default function () {
         </Link>
         <div className="flex  w-full">
           <div className="hidden md:flex gap-10 mt-10 ml-10 font-medium">
-            <Link href="/">Everything</Link>
-            <Link href="/">Groceries</Link>
-            <Link href="/">Juices</Link>
+            <Link href="/Shop">Everything</Link>
+            <Link href="/Groceries">Groceries</Link>
+            <Link href="/Juices">Juices</Link>
             <Link href="/About">About</Link>
             <Link href="/">Contact</Link>
           </div>
@@ -59,10 +59,10 @@ function Sidebar({ closeBar }: SidebarProps) {
           </svg>
         </div>
         <div className="flex flex-col gap-1 mt-14 font-medium">
-            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-blue-900" href="/">Everything</Link>
-            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/">Groceries</Link>
-            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/">Juices</Link>
-            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/">About</Link>
+            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-blue-900" href="Shop">Everything</Link>
+            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/Groceries">Groceries</Link>
+            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/Juices">Juices</Link>
+            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/About">About</Link>
             <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/">Contact</Link>
           </div>
       </div>

@@ -1,3 +1,4 @@
+import prisma from '@/db';
 import CredentialsProvider from 'next-auth/providers/credentials';
 import GoogleProvider from "next-auth/providers/google";
 
@@ -13,14 +14,23 @@ export const NEXT_AUTH_CONFIG = {
             username: { label: 'email', type: 'text', placeholder: '' },
             password: { label: 'password', type: 'password', placeholder: '' },
           },
-          async authorize(credentials: any) {
-                console.log(credentials)
-              return {
-                  id: "user1",
-                  name: "asd",
-                  userId: "asd",
-                  email: "ramdomEmail"
-              };
+          async authorize(credentials:any) {
+                const response = await prisma.users.findFirst({
+                  where:{
+                    OR : [
+                      {Email : credentials.email},
+                      {UserName : credentials.email}
+                    ]
+                  }
+                })
+                if(response){
+                  return {
+                    id : response.UserID,
+                    name:response.UserName,
+                    email : response.Email
+                  } as any
+                }
+                  return null
           },
         }),
     ],
@@ -38,16 +48,6 @@ export const NEXT_AUTH_CONFIG = {
           }
           return session
       },
-      callbacks: {
-        async redirect({ url, baseUrl }:any) {
-            console.log(`url : ${url} ,baseurl :  ${baseUrl}`)
-          // Allows relative callback URLs
-          if (url.startsWith("/")) return `${baseUrl}${url}`
-          // Allows callback URLs on the same origin
-          else if (new URL(url).origin === baseUrl) return url
-          return baseUrl
-        }
-      }
     },
     pages: {
         signIn: '/signin',

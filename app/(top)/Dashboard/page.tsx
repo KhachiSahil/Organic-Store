@@ -7,14 +7,21 @@ import Image from 'next/image'
 import Leaf from "@/public/logo-leaf-new.png"
 import { getServerSession } from "next-auth"
 import { NEXT_AUTH_CONFIG } from "@/app/lib/auth";
+import signup from "@/actions/signup";
 
 async function getUser() {
   const session = await getServerSession(NEXT_AUTH_CONFIG);
-  return session;
+  if(session){
+    const data = {
+      username : session.user.name,
+      email : session.user.email,
+      password : session.user.id
+    }
+   await signup(data);
+  }
 }
 const Home: React.FC = async () => {
-  const session = await getUser();
-  console.log(session)
+  await getUser();
   return (
     <>
       <Homepage />

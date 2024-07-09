@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function () {
     return (
-        <div className="bg-black p-10">
+        <div className="bg-black p-10 bottom-0">
             <div className="flex gap-14 justify-center m-10">
                 <div>
                     <div>

@@ -1,6 +1,13 @@
 'use server'
 import prisma from "@/db"
- export default async function({username,email,password}:any){
+
+interface schema  {
+    username:string,
+    email : string,
+    password : string
+}
+
+ export default async function({username,email,password}: schema){
     const response  = await prisma.users.findUnique({
         where : {
             Email : email
