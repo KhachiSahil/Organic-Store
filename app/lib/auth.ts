@@ -15,11 +15,18 @@ export const NEXT_AUTH_CONFIG = {
             password: { label: 'password', type: 'password', placeholder: '' },
           },
           async authorize(credentials:any) {
+              console.log(credentials)
                 const response = await prisma.users.findFirst({
                   where:{
-                    OR : [
-                      {Email : credentials.email},
-                      {UserName : credentials.email}
+                    AND : [
+                      {
+                        OR : [
+                          {Email : credentials.email},
+                          {UserName : credentials.email}
+                        ]
+                      },{
+                        PasswordHash : credentials.password
+                      }
                     ]
                   }
                 })

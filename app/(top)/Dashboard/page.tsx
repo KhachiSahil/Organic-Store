@@ -8,6 +8,7 @@ import Leaf from "@/public/logo-leaf-new.png"
 import { getServerSession } from "next-auth"
 import { NEXT_AUTH_CONFIG } from "@/app/lib/auth";
 import signup from "@/actions/signup";
+import prisma from "@/db";
 
 async function getUser() {
   const session = await getServerSession(NEXT_AUTH_CONFIG);
@@ -22,6 +23,7 @@ async function getUser() {
 }
 const Home: React.FC = async () => {
   await getUser();
+  const data = await prisma.products.findMany({take: 4})
   return (
     <>
       <Homepage />
@@ -98,10 +100,7 @@ const Home: React.FC = async () => {
           <Image src={Leaf} alt="missing" />
         </div>
         <div className=" flex flex-wrap gap-5 mt-10 justify-center">
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
-          <ProductCard />
+          {data.map( e => <ProductCard key={e.CategoryID} content={e} />)}
         </div>
       </div>
       <div className="bg-gradient-to-r from-white to-red-50 items-center">

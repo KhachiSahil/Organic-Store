@@ -21,9 +21,9 @@ export default function () {
         </Link>
         <div className="flex  w-full">
           <div className="hidden md:flex gap-10 mt-10 ml-10 font-medium">
-            <Link href="/Shop">Everything</Link>
-            <Link href="/Groceries">Groceries</Link>
-            <Link href="/Juices">Juices</Link>
+            <Link href={{pathname : 'Shop', query : {category : 'Shop'}}}>Everything</Link>
+            <Link href={{pathname : 'Shop' , query : {category : 'Groceries'}}}>Groceries</Link>
+            <Link href={{pathname : 'Shop' , query : {category : 'Juices'}}}>Juices</Link>
             <Link href="/About">About</Link>
             <Link href="/">Contact</Link>
           </div>
