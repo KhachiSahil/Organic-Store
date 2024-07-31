@@ -15,7 +15,7 @@ interface data  {
 export default function Productcard({content}:{content : data}) {
     const router = useRouter();
     const handleCardClick = () => { 
-        router.push("/")
+        router.push(`/product?id=${content.ProductID}`);
       };    
     return (
         <div onClick={handleCardClick} className="cursor-pointer flex justify-center items-center gap-2 flex-col p-5">

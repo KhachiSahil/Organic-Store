@@ -1,10 +1,9 @@
 "use client";
+import getProduct from "@/actions/getProduct";
 import ProductCard from "./ProductCard";
 import { useZoomImageMove } from "@zoom-image/react";
 import { useEffect, useRef, useState } from "react";
 
-
-// Define the interface for the product data
 interface Product {
     ProductID: number;
     CategoryID: number;
@@ -13,12 +12,17 @@ interface Product {
     Price: number;
     Stock: number;
     ImageUrl: string;
-    Category: {
+    Category?: {
         CategoryName: string;
     };
 }
 
-export default function Home() {
+
+interface InventoryProps {
+    product: Product;
+}
+
+export default function Inventory({ product }: InventoryProps) {
     const [isDisc, setIsDisc] = useState(true);
     const [rating, setRating] = useState(0);
     const imageMoveContainerRef = useRef<HTMLDivElement>(null);
@@ -28,39 +32,40 @@ export default function Home() {
     useEffect(() => {
         const imageContainer = imageMoveContainerRef.current as HTMLDivElement;
         createZoomImageMove(imageContainer, {
-            zoomImageSource: "/coffee-asorted-300x300.jpg",
+            zoomImageSource: product.ImageUrl || "/default-image.jpg",
         });
 
-        // Fetch related products here (mocked data for example)
         const fetchRelatedProducts = async () => {
-            const response = await fetch("/api/related-products"); // Update with your API endpoint
-            const data: Product[] = await response.json(); // Type the data
-            setRelatedProducts(data);
+            const category = product.Category?.CategoryName || '';
+            if (category) {
+                const data: Product[] = await getProduct(category, 1, 3);
+                setRelatedProducts(data);
+            }
         };
 
         fetchRelatedProducts();
-    }, [createZoomImageMove]); // Added createZoomImageMove to the dependency array
+    }, [createZoomImageMove, product.ImageUrl]);
 
     return (
         <div className="bg-gray-100 justify-center items-center">
             <div className="flex gap-10 flex-wrap flex-col md:flex-row justify-center items-center pt-10">
                 <div className="min:w-3/12 w-3/12 h-4/12">
                     <div ref={imageMoveContainerRef} className="relative h-[300px] w-[200px] cursor-pointer overflow-hidden">
-                        <img className="h-full w-full" alt="Large Pic" src="/coffee-asorted-300x300.jpg" />
+                        <img className="h-full w-full" alt={product.ProductName} src={product.ImageUrl} />
                     </div>
                 </div>
                 <div className="flex flex-col gap-9 min:w-3/12 w-5/12">
-                    <div className="text-4xl font-semibold mt-5">Assorted Coffee</div>
+                    <div className="text-4xl font-semibold mt-5">{product.ProductName}</div>
                     <div className="text-xl font-bold">
-                        $35 <span className="font-normal">+ Free Shipping</span>
+                        ${product.Price} <span className="font-normal">+ Free Shipping</span>
                     </div>
-                    <div>Experience the rich and diverse flavors of our assorted coffee collection. Each blend is carefully selected from the finest coffee beans around the world, offering a unique taste adventure in every cup.</div>
+                    <div>{product.Description}</div>
                     <div>
                         <input className="w-10 mr-7" type="number" defaultValue="1" />
                         <button className="bg-lime-700 p-2 w-64 hover:bg-lime-500 rounded-md text-white font-bold">ADD TO CART</button>
                     </div>
                     <div className="border-t-2">
-                        Categories: <span className="text-lime-500">Juices, Groceries</span>
+                        Categories: <span className="text-lime-500">{product.Category?.CategoryName}</span>
                     </div>
                 </div>
             </div>
@@ -82,7 +87,7 @@ export default function Home() {
                 <div className="flex items-center justify-center">
                     {isDisc ? (
                         <div className="m-3 text-xl w-1/2 rounded-md bg-slate-200 p-7 font-medium font-serif">
-                            Experience the rich and diverse flavors of our assorted coffee collection. Each blend is carefully selected from the finest coffee beans around the world, offering a unique taste adventure in every cup.
+                            {product.Description}
                         </div>
                     ) : (
                         <div className="md:w-1/2 bg-slate-200 flex flex-col justify-center items-center p-5 rounded-md">
@@ -120,8 +125,8 @@ export default function Home() {
             <div className="flex flex-col justify-start mt-14 pb-10">
                 <div className="text-2xl md:text-4xl block font-semibold ml-2 md:ml-64">Related Products</div>
                 <div className="flex flex-wrap gap-5 mt-3 justify-center">
-                    {relatedProducts.map((product) => (
-                        <ProductCard key={product.ProductID} content={product} />
+                    {relatedProducts.map((relatedProduct) => (
+                        <ProductCard key={relatedProduct.ProductID} content={relatedProduct} />
                     ))}
                 </div>
             </div>
