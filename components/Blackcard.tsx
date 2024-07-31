@@ -6,7 +6,7 @@ interface CardProps {
     description: string
 }
 
-export default function ({ icon, title, description }: CardProps) {
+export default function Blackard({ icon, title, description }: CardProps) {
     return (
         <>
             <div className="mt-4 md:mt-auto w-full md:w-auto bg-zinc-800 p-5 md:ml-14">

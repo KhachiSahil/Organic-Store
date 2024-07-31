@@ -1,6 +1,6 @@
 import Inventory from "@/components/Inventory";
 
-export default function(){
+export default function product(){
     return(
         <Inventory/>
     )

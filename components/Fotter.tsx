@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function () {
+export default function Footer() {
     return (
         <div className="bg-black p-10 bottom-0">
             <div className="flex gap-14 justify-center m-10">

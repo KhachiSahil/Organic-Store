@@ -1,17 +1,19 @@
 "use client"
-import { useRouter } from "next/navigation"
+import { useRouter } from "next/navigation";
 
-export default function () {
+
+
+export default function Homepage() {
     const router = useRouter()
     return (
         <div className="bg-gradient-to-r from-white to-red-50">
             <div className="flex bg-leaf gap-5 backdrop-opacity-10 bg-no-repeat bg-right-bottom bg-16 flex-wrap-reverse md:flex-nowrap md:flex-row mt-9 pb-14 justify-center place-items-center">
                 <div className=" w-auto m-10 md:mt-9 md:mb-14">
-                    <img src="organic-products-hero.png" />
+                    <img alt="error" src="organic-products-hero.png" />
                 </div>
                 <div>
                     <div className=" flex  flex-col text-center place-items-center justify-center md:text-left md:place-items-start md:justify-start">
-                        <img src="logo-leaf-new.png" />
+                        <img alt='error' src="logo-leaf-new.png" />
                         <div className="font-medium text-xl md:text-2xl mt-4">Best Quality Products</div>
                         <div className="font-bold text-5xl md:text-7xl mt-7">Join The Organic <br></br> Movement!</div>
                         <div className="flex text-xl mt-7">Discover top-quality products and join the organic movement for a healthier, sustainable lifestyle today!</div>

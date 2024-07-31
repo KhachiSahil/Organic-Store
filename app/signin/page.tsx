@@ -1,6 +1,6 @@
 import SignIn from "@/components/Signin";
 
-export default function(){
+export default function Home(){
   return <>
   <SignIn/>
   </>

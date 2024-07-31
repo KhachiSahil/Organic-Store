@@ -7,7 +7,7 @@ type SidebarProps = {
   closeBar: () => void
 }
 
-export default function () {
+export default function Appbar() {
   const [isOpen, SetIsOpen] = useState<boolean>(false);
   const SideBarToggle = () => {
     SetIsOpen(!isOpen);

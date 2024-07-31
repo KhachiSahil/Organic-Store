@@ -1,4 +1,4 @@
-export default function () {
+export default function loading() {
     return (
         <>
             <div className="w-screen h-screen flex align-middle justify-center">

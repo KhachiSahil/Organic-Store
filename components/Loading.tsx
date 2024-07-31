@@ -1,4 +1,4 @@
-export default function () {
+export default function Loading() {
     return (
         <>
             <div className="ml-96 mr-4 h-screen flex align-middle justify-center">

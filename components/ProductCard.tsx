@@ -12,7 +12,7 @@ interface data  {
     ImageUrl : string
 }
 
-export default function ({content}:{content : data}) {
+export default function Productcard({content}:{content : data}) {
     const router = useRouter();
     const handleCardClick = () => { 
         router.push("/")

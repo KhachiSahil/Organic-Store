@@ -1,10 +1,7 @@
 import Productlayout from "@/components/Productlayout";
 
-export default async function(){
-
+export default async function Shop() {
     return (
-        <>
         <Productlayout />
-        </>
-    )
+    );
 }
