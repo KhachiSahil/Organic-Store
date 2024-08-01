@@ -14,10 +14,10 @@ export default function Footer() {
                 </div>
                 <div className="text-white flex flex-col">
                     <div className="text-xl font-semibold">Quick Links</div>
-                    <Link href="/">About</Link>
+                    <Link href="/About">About</Link>
                     <Link href="/">Contact</Link>
-                    <Link href="/">Groceries</Link>
-                    <Link href="/">Juices</Link>
+                    <Link href={{pathname : 'Shop' , query : {category : 'Groceries'}}}>Groceries</Link>
+                    <Link href={{pathname : 'Shop' , query : {category : 'Juices'}}}>Juices</Link>
                 </div>
             </div>
             <div className="text-gray-300 border-t-2 border-gray-600 mt-4 pt-5 mb-4">

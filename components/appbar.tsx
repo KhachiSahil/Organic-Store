@@ -59,9 +59,9 @@ function Sidebar({ closeBar }: SidebarProps) {
           </svg>
         </div>
         <div className="flex flex-col gap-1 mt-14 font-medium">
-            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-blue-900" href="Shop">Everything</Link>
-            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/Groceries">Groceries</Link>
-            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/Juices">Juices</Link>
+            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-blue-900" href={{pathname : 'Shop', query : {category : 'Shop'}}}>Everything</Link>
+            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href={{pathname : 'Shop' , query : {category : 'Groceries'}}}>Groceries</Link>
+            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href={{pathname : 'Shop' , query : {category : 'Juices'}}}>Juices</Link>
             <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/About">About</Link>
             <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/">Contact</Link>
           </div>
