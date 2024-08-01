@@ -1,4 +1,5 @@
 "use client";
+import Image from 'next/image';
 import getProduct from "@/actions/getProduct";
 import ProductCard from "./ProductCard";
 import { useZoomImageMove } from "@zoom-image/react";
@@ -16,7 +17,6 @@ interface Product {
         CategoryName: string;
     };
 }
-
 
 interface InventoryProps {
     product: Product;
@@ -49,12 +49,19 @@ export default function Inventory({ product }: InventoryProps) {
     return (
         <div className="bg-gray-100 justify-center items-center">
             <div className="flex gap-10 flex-wrap flex-col md:flex-row justify-center items-center pt-10">
-                <div className="min:w-3/12 md:w-3/12 w-2/3 h-5/12 md:h-4/12">
+                <div className="min-w-3/12 md:w-3/12 w-2/3 h-5/12 md:h-4/12">
                     <div ref={imageMoveContainerRef} className="relative h-[300px] w-[200px] cursor-pointer overflow-hidden">
-                        <img className="h-full w-full" alt={product.ProductName} src={product.ImageUrl} />
+                        <Image 
+                            className="h-full w-full object-cover"
+                            alt={product.ProductName}
+                            src={product.ImageUrl}
+                            width={200}
+                            height={300}
+                            layout="responsive"
+                        />
                     </div>
                 </div>
-                <div className="flex flex-col gap-9 min:w-3/12 w-2/3 md:w-5/12">
+                <div className="flex flex-col gap-9 min-w-3/12 w-2/3 md:w-5/12">
                     <div className="text-4xl font-semibold mt-5">{product.ProductName}</div>
                     <div className="text-xl font-bold">
                         ${product.Price} <span className="font-normal">+ Free Shipping</span>
