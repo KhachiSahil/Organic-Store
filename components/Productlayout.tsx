@@ -94,6 +94,13 @@ export default function ProductLayout() {
                             ))}
                         </div>
                         <div className="flex gap-3 ml-5">
+                            <button
+                                onClick={() => setPage(page - 1)}
+                                className="border border-lime-500 disabled:border-gray-500 disabled:hover:bg-gray-300 w-10 h-10 py-2 align-middle text-center hover:text-white hover:bg-lime-500"
+                                disabled={page === 1}
+                            >
+                                {page - 1}
+                            </button>
                             <div className="border border-lime-500 w-10 h-10 py-2 text-center hover:text-white hover:bg-lime-500 ">
                                 {page}
                             </div>
