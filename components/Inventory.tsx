@@ -3,6 +3,8 @@ import getProduct from "@/actions/getProduct";
 import ProductCard from "./ProductCard";
 import { useZoomImageMove } from "@zoom-image/react";
 import { useEffect, useRef, useState } from "react";
+import { useSession } from "next-auth/react";
+import Reviews from "@/actions/Reviews";
 
 interface Product {
     ProductID: number;
@@ -17,7 +19,6 @@ interface Product {
     };
 }
 
-
 interface InventoryProps {
     product: Product;
 }
@@ -25,9 +26,12 @@ interface InventoryProps {
 export default function Inventory({ product }: InventoryProps) {
     const [isDisc, setIsDisc] = useState(true);
     const [rating, setRating] = useState(0);
+    const [comment, setComment] = useState('');
     const imageMoveContainerRef = useRef<HTMLDivElement>(null);
     const { createZoomImage: createZoomImageMove } = useZoomImageMove();
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
+    const { data: session, status } = useSession();
+    const userID = session?.user?.id;
 
     useEffect(() => {
         const imageContainer = imageMoveContainerRef.current as HTMLDivElement;
@@ -45,6 +49,28 @@ export default function Inventory({ product }: InventoryProps) {
 
         fetchRelatedProducts();
     }, [createZoomImageMove, product.ImageUrl]);
+
+    const handleReviewSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (userID && product.ProductID && rating && comment) {
+            const success = await Reviews({
+                ProductID: product.ProductID,
+                UserID: userID,
+                Rating: rating,
+                Comment: comment,
+            });
+
+            if (success) {
+                alert("Review submitted successfully!");
+                setRating(0);
+                setComment('');
+            } else {
+                alert("Failed to submit the review. Please try again.");
+            }
+        } else {
+            alert("Please fill in all fields before submitting.");
+        }
+    };
 
     return (
         <div className="bg-gray-100 justify-center items-center">
@@ -92,7 +118,7 @@ export default function Inventory({ product }: InventoryProps) {
                     ) : (
                         <div className="md:w-1/2 bg-slate-200 flex flex-col justify-center items-center p-5 rounded-md">
                             <div className="md:w-1/2">
-                                <form>
+                                <form onSubmit={handleReviewSubmit}>
                                     <div className="m-3">
                                         {[1, 2, 3, 4, 5].map((star) => (
                                             <span
@@ -110,8 +136,18 @@ export default function Inventory({ product }: InventoryProps) {
                                         ))}
                                     </div>
                                     <div className="flex flex-col gap-5">
-                                        <textarea className="border border-black resize rounded-md p-2 pb-10" placeholder="Review" required></textarea>
-                                        <input className="bg-lime-700 hover:bg-lime-600 p-2 text-white font-bold rounded-md" type="submit" value="Submit" />
+                                        <textarea
+                                            className="border border-black resize rounded-md p-2 pb-10"
+                                            placeholder="Review"
+                                            required
+                                            value={comment}
+                                            onChange={(e) => setComment(e.target.value)}
+                                        ></textarea>
+                                        <input
+                                            className="bg-lime-700 hover:bg-lime-600 p-2 text-white font-bold rounded-md"
+                                            type="submit"
+                                            value="Submit"
+                                        />
                                     </div>
                                 </form>
                             </div>

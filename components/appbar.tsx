@@ -16,7 +16,7 @@ export default function Appbar() {
   const { data: session, status } = useSession();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [uOpen, setUOpen] = useState<boolean>(false);
-
+  
   const sideBarToggle = () => {
     setIsOpen(!isOpen);
   };
@@ -110,7 +110,7 @@ function User({ userToggle ,data }: UserProps) {
       <button
         className="bg-red-500 text-white rounded-md shadow-lg py-2 px-4 mx-5 font-bold hover:bg-red-600 transition duration-200"
         onClick={() => {
-          signOut({ callbackUrl: `process.env.HOST_URL`});
+          signOut({ callbackUrl: `${process.env.HOST_URL}`});
         }}
       >
         Sign out

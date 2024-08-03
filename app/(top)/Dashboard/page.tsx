@@ -1,8 +1,9 @@
 // Home.tsx
+import React from "react";
 import Blackcard from "@/components/Blackcard";
 import Homepage from "@/components/Homepage";
 import ProductCard from "@/components/ProductCard";
-import ReviewsCard from "@/components/ReviewsCard";
+import ReviewCard from "@/components/ReviewsCard";  // Import updated ReviewCard
 import Image from 'next/image'
 import Leaf from "@/public/logo-leaf-new.png"
 import { getServerSession } from "next-auth"
@@ -14,16 +15,31 @@ async function getUser() {
   const session = await getServerSession(NEXT_AUTH_CONFIG);
   if(session){
     const data = {
-      username : session.user.name,
-      email : session.user.email,
-      password : session.user.id
+      username: session.user.name,
+      email: session.user.email,
+      password: session.user.id
     }
-   await signup(data);
+    await signup(data);
   }
 }
+
+async function getReviews() {
+  return await prisma.reviews.findMany({
+    include : {
+      Users : {
+        select : {
+          UserName : true
+        }
+      }
+    },
+  });
+}
+
 const Home: React.FC = async () => {
   await getUser();
-  const data = await prisma.products.findMany({take: 4})
+  const reviewsData = await getReviews();
+  const productsData = await prisma.products.findMany({ take: 4 });
+
   return (
     <>
       <Homepage />
@@ -76,46 +92,57 @@ const Home: React.FC = async () => {
               strokeWidth={1.5}
               stroke="currentColor"
               className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125h-.375m1.5-1.5H21a.75.75 0 0 0-.75.75v.75m0 0H3.75m0 0h-.375a1.125 1.125 0 0 1-1.125-1.125V15m1.5 1.5v-.75A.75.75 0 0 0 3 15h-.75M15 10.5a3 3 0 1 1-6 0 3 3 0 0 1 6 0Zm3 0h.008v.008H18V10.5Zm-12 0h.008v.008H6V10.5Z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18.75a60.07 60.07 0 0 1 15.797 2.101c.727.198 1.453-.342 1.453-1.096V18.75M3.75 4.5v.75A.75.75 0 0 1 3 6h-.75m0 0v-.375c0-.621.504-1.125 1.125-1.125H20.25M2.25 6v9m18-10.5v.75c0 .414.336.75.75.75h.75m-1.5-1.5h.375c.621 0 1.125.504 1.125 1.125v9.75c0 .621-.504 1.125-1.125 1.125H21m0 0h-.75a.75.75 0 0 1-.75-.75v-.75m1.5 0V6m-1.5 12.75V18a.75.75 0 0 1 .75-.75H21m0 0h1.5m-3.75 0h1.5" />
             </svg>
-
           }
           title="Huge Savings"
-          description="At Lowest Price."
+          description="At lowest price."
         />
         <Blackcard
           icon={
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="size-6">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 9.75h4.875a2.625 2.625 0 0 1 0 5.25H12M8.25 9.75 10.5 7.5M8.25 9.75 10.5 12m9-7.243V21.75l-3.75-1.5-3.75 1.5-3.75-1.5-3.75 1.5V4.757c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0 1 11.186 0c1.1.128 1.907 1.077 1.907 2.185Z" />
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              fill="none"
+              viewBox="0 0 24 24"
+              strokeWidth={1.5}
+              stroke="currentColor"
+              className="size-6">
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16.5 13.875v4.5m0 0v4.5m0-4.5h-4.5m4.5 0h4.5m-18-1.5a8.25 8.25 0 1 1 16.5 0 8.25 8.25 0 0 1-16.5 0Z" />
             </svg>
-
           }
           title="Easy Returns"
-          description="No Questions Asked."
+          description="No questions asked."
         />
       </div>
-      <div className="flex justify-center items-center mt-20 flex-col">
-        <div className="text-5xl font-semibold">Best Selling Products</div>
+      <div className="flex flex-col justify-center items-center p-5 mt-20">
+        <div className="text-4xl font-bold flex justify-center items-center">
+          New Products
+        </div>
         <div className="mt-12">
           <Image src={Leaf} alt="missing" />
         </div>
         <div className=" flex flex-wrap gap-5 mt-10 justify-center">
-          {data.map( e => <ProductCard key={e.CategoryID} content={e} />)}
+          {productsData.map((e) => <ProductCard key={e.CategoryID} content={e} />)}
         </div>
       </div>
       <div className="bg-gradient-to-r from-white to-red-50 items-center">
-  <div className="p-5 flex justify-center items-center mt-20 flex-col">
-    <div className="text-3xl md:text-5xl font-semibold mt-9 text-center">Customers Reviews</div>
-    <div className="mt-12">
-      <Image src={Leaf} alt="Failed" className="mx-auto" />
-    </div>
-  </div>
-  <div className="flex flex-wrap justify-center gap-4 p-8">
-    <ReviewsCard />
-    <ReviewsCard />
-    <ReviewsCard />
-  </div>
-</div>
+        <div className="p-5 flex justify-center items-center mt-20 flex-col">
+          <div className="text-3xl md:text-5xl font-semibold mt-9 text-center">Customers Reviews</div>
+          <div className="mt-12">
+            <Image src={Leaf} alt="Failed" className="mx-auto" />
+          </div>
+        </div>
+        <div className="flex flex-wrap justify-center gap-4 p-8">
+          {reviewsData.map((review) => (
+            <ReviewCard 
+              key={review.ReviewID} 
+              rating={review.Rating} 
+              review={review.Comment} 
+              reviewer={review.Users.UserName} 
+            />
+          ))}
+        </div>
+      </div>
     </>
   );
 }
