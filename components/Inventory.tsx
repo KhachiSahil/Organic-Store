@@ -50,7 +50,7 @@ export default function Inventory({ product }: InventoryProps) {
         <div className="bg-gray-100 justify-center items-center">
             <div className="flex gap-10 flex-wrap flex-col md:flex-row justify-center items-center pt-10">
                 <div className="min:w-3/12 md:w-3/12 w-2/3 h-5/12 md:h-4/12">
-                    <div ref={imageMoveContainerRef} className="relative flex justify-center items-center h-80 w-80 pr-8 cursor-pointer overflow-hidden">
+                    <div ref={imageMoveContainerRef} className="relative flex justify-center items-center h-full w-full pr-8 cursor-pointer overflow-hidden">
                         <img className="h-full w-full object-contain" alt={product.ProductName} src={product.ImageUrl} />
                     </div>
                 </div>
