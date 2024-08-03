@@ -56,7 +56,7 @@ export const NEXT_AUTH_CONFIG = {
           return session
       },
       async redirect() {
-        return process.env.HOST_URL;
+        return process.env.HOST_URL ?? '/';
       }
     },
     pages: {
