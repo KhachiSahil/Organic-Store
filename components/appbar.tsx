@@ -24,7 +24,7 @@ export default function Appbar() {
   const userBarToggle = () => {
     setUOpen(!uOpen);
   };
-
+  console.log(process.env.HOST_URL);
   return (
     <div className="sticky top-0 z-50 bg-white shadow-md">
       <div className="flex w-full">
@@ -110,7 +110,7 @@ function User({ userToggle ,data }: UserProps) {
       <button
         className="bg-red-500 text-white rounded-md shadow-lg py-2 px-4 mx-5 font-bold hover:bg-red-600 transition duration-200"
         onClick={() => {
-          signOut({ callbackUrl: "https://organic-store-three.vercel.app/"});
+          signOut({ callbackUrl: `process.env.HOST_URL`});
         }}
       >
         Sign out
