@@ -31,10 +31,13 @@ export default function Inventory({ product }: InventoryProps) {
     const { createZoomImage: createZoomImageMove } = useZoomImageMove();
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
     const { data: session, status } = useSession();
-    const userID = session?.user?.id;
+    const userID = (session?.user as { id?: string })?.id;
+    
+
+
 
     useEffect(() => {
-        const imageContainer = imageMoveContainerRef.current as HTMLDivElement;
+        const imageContainer = imageMoveContainerRef.current as HTMLDivElement; 
         createZoomImageMove(imageContainer, {
             zoomImageSource: product.ImageUrl || "/default-image.jpg",
         });
@@ -55,7 +58,7 @@ export default function Inventory({ product }: InventoryProps) {
         if (userID && product.ProductID && rating && comment) {
             const success = await Reviews({
                 ProductID: product.ProductID,
-                UserID: userID,
+                UserID: parseInt(userID),
                 Rating: rating,
                 Comment: comment,
             });
