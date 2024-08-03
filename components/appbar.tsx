@@ -110,7 +110,7 @@ function User({ userToggle ,data }: UserProps) {
       <button
         className="bg-red-500 text-white rounded-md shadow-lg py-2 px-4 mx-5 font-bold hover:bg-red-600 transition duration-200"
         onClick={() => {
-          signOut({ callbackUrl: process.env.HOST_URL });
+          signOut({ callbackUrl: "https://organic-store-three.vercel.app/"});
         }}
       >
         Sign out
