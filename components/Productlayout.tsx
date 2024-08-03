@@ -49,18 +49,6 @@ export default function ProductLayout() {
         <div className="flex justify-center gap-5 py-10 flex-col md:flex-row bg-gray-100">
             <div className="w-64 flex flex-col ml-12 items-center md:justify-normal gap-6">
                 <div>
-                    <input 
-                        className="w-40 border-2 border-slate-600 px-4 py-1 mr-1" 
-                        type="text" 
-                        placeholder="Search products..." 
-                    />
-                    <button className="bg-lime-500 text-white font-semibold align-middle p-2 rounded-md">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2.5} stroke="currentColor" className="size-6">
-                            <path strokeLinecap="round" strokeLinejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </button>
-                </div>
-                <div>
                     <div className="font-medium text-2xl font-serif">Filter by Price</div>
                     <input
                         onChange={(e) => handleSubmit(Number(e.target.value))}
@@ -71,6 +59,21 @@ export default function ProductLayout() {
                         value={range}
                         type="range"
                     />
+                </div>
+                <div className="md:flex md:flex-col hidden md:visible gap-4">
+                    <div className="text-black font-bold text-2xl ">
+                        Categories:
+                    </div>
+                    <div className="flex flex-col ml-4 gap-2">
+                        <label>
+                        <input type="checkbox" value="Groceries" />
+                        Groceries
+                        </label>
+                        <label>
+                        <input type="checkbox" value="Groceries" />
+                        Juices
+                        </label>
+                    </div>
                 </div>
             </div>
             <div className="md:border-l-2">

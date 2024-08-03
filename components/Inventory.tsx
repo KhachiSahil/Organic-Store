@@ -91,7 +91,6 @@ export default function Inventory({ product }: InventoryProps) {
                         </div>
                     ) : (
                         <div className="md:w-1/2 bg-slate-200 flex flex-col justify-center items-center p-5 rounded-md">
-                            <div>There is no review yet</div>
                             <div className="md:w-1/2">
                                 <form>
                                     <div className="m-3">
@@ -111,9 +110,7 @@ export default function Inventory({ product }: InventoryProps) {
                                         ))}
                                     </div>
                                     <div className="flex flex-col gap-5">
-                                        <textarea className="border border-black resize rounded-md p-2" placeholder="Review" required></textarea>
-                                        <input className="border border-black p-2 rounded-md" type="text" placeholder="Name" required />
-                                        <input className="border border-black p-2 rounded-md" type="email" placeholder="Email" required />
+                                        <textarea className="border border-black resize rounded-md p-2 pb-10" placeholder="Review" required></textarea>
                                         <input className="bg-lime-700 hover:bg-lime-600 p-2 text-white font-bold rounded-md" type="submit" value="Submit" />
                                     </div>
                                 </form>
