@@ -19,12 +19,10 @@ export default function SignIn() {
       password,
     },
     );
-    console.log(res)
     if (res?.error) {
       setError(res.error);
     } else {
       router.push("/Dashboard")
-      console.log('Signed in successfully');
     }
   };
 

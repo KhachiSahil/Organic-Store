@@ -31,7 +31,7 @@ export default function Inventory({ product }: InventoryProps) {
     const { createZoomImage: createZoomImageMove } = useZoomImageMove();
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
     const { data: session, status } = useSession();
-    const userID = (session?.user as { id?: string })?.id;
+    const userID = session?.user?.name
     
 
 
@@ -58,7 +58,7 @@ export default function Inventory({ product }: InventoryProps) {
         if (userID && product.ProductID && rating && comment) {
             const success = await Reviews({
                 ProductID: product.ProductID,
-                UserID: parseInt(userID),
+                UserID: userID,
                 Rating: rating,
                 Comment: comment,
             });

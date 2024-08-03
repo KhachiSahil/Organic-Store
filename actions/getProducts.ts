@@ -50,7 +50,6 @@ export default async function getProducts({
         Category: true
       }
     });
-    console.log(products)
     return products;
   } catch (error) {
     console.error('Failed to fetch products:', error);

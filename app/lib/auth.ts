@@ -49,14 +49,18 @@ export const NEXT_AUTH_CONFIG = {
         }
         return token;
         },
-      session: ({ session, token }: any | null | undefined) => {
+      session: ({ session, token, user }: any) => {
           if (session.user) {
               session.user.id = token.uid
           }
           return session
       },
-      async redirect() {
-        return process.env.HOST_URL ?? '/';
+      async redirect({url, baseUrl} : any) {
+        if(url == baseUrl){
+          return `${baseUrl}/Dashboard`;
+        }else{
+          return baseUrl;
+        }
       }
     },
     pages: {

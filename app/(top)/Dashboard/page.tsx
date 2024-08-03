@@ -132,15 +132,15 @@ const Home: React.FC = async () => {
             <Image src={Leaf} alt="Failed" className="mx-auto" />
           </div>
         </div>
-        <div className="flex flex-wrap justify-center gap-4 p-8">
-          {reviewsData.map((review) => (
-            <ReviewCard 
-              key={review.ReviewID} 
-              rating={review.Rating} 
-              review={review.Comment} 
-              reviewer={review.Users.UserName} 
-            />
-          ))}
+        <div className="flex flex-row overflow-x-auto gap-4 p-8">
+            {reviewsData.map((review) => (
+                <ReviewCard 
+                    key={review.ReviewID} 
+                    rating={review.Rating} 
+                    review={review.Comment} 
+                    reviewer={review.Users.UserName} 
+                />
+            ))}
         </div>
       </div>
     </>

@@ -1,6 +1,7 @@
 "use client"
 import { signOut, useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 
 type SidebarProps = {
@@ -24,7 +25,6 @@ export default function Appbar() {
   const userBarToggle = () => {
     setUOpen(!uOpen);
   };
-  console.log(process.env.HOST_URL);
   return (
     <div className="sticky top-0 z-50 bg-white shadow-md">
       <div className="flex w-full">
@@ -85,6 +85,7 @@ function Sidebar({ closeBar }: SidebarProps) {
 
 function User({ userToggle ,data }: UserProps) {
   const userRef = useRef<HTMLDivElement>(null);
+  const router = useRouter();
 
   const handleClickOutside = (event: MouseEvent) => {
     if (userRef.current && !userRef.current.contains(event.target as Node)) {
@@ -110,7 +111,7 @@ function User({ userToggle ,data }: UserProps) {
       <button
         className="bg-red-500 text-white rounded-md shadow-lg py-2 px-4 mx-5 font-bold hover:bg-red-600 transition duration-200"
         onClick={() => {
-          signOut({ callbackUrl: `${process.env.HOST_URL}`});
+          signOut({callbackUrl : '/Signin'});
         }}
       >
         Sign out
