@@ -1,3 +1,4 @@
+// Home.tsx
 import React from "react";
 import Blackcard from "@/components/Blackcard";
 import Homepage from "@/components/Homepage";
@@ -5,67 +6,13 @@ import ProductCard from "@/components/ProductCard";
 import ReviewCard from "@/components/ReviewsCard";  // Import updated ReviewCard
 import Image from 'next/image';
 import Leaf from "@/public/logo-leaf-new.png";
-import { getServerSession } from "next-auth";
-import { NEXT_AUTH_CONFIG } from "@/app/lib/auth";
-import signup from "@/actions/signup";
-import prisma from "@/db";
-
-async function getUser() {
-  const session = await getServerSession(NEXT_AUTH_CONFIG);
-  if(session){
-    const data = {
-      username: session.user.name,
-      email: session.user.email,
-      password: session.user.id
-    }
-    await signup(data);
-  }
-}
-
-export async function createCart() {
-  const session = await getServerSession(NEXT_AUTH_CONFIG);
-  if (!session) throw new Error("User session not found.");
-
-  const user = await prisma.users.findFirst({
-    where: {
-      UserName: session.user.name
-    }
-  });
-
-  if (user) {
-    const cart = await prisma.cart.findFirst({
-      where: {
-        UserID: user.UserID
-      }
-    });
-
-    if (!cart) {
-      await prisma.cart.create({
-        data: {
-          UserID: user.UserID
-        }
-      });
-    }
-  }
-}
-
-async function getReviews() {
-  return await prisma.reviews.findMany({
-    include: {
-      Users: {
-        select: {
-          UserName: true
-        }
-      }
-    }
-  });
-}
+import { getUser, createCart, getReviews, getProducts } from "@/actions/serverFunction";
 
 const Home: React.FC = async () => {
   await getUser();
   await createCart();
   const reviewsData = await getReviews();
-  const productsData = await prisma.products.findMany({ take: 4 });
+  const productsData = await getProducts();
 
   return (
     <>
@@ -116,18 +63,20 @@ const Home: React.FC = async () => {
           <Image src={Leaf} alt="missing" />
         </div>
         <div className="flex flex-wrap gap-5 mt-10 justify-center">
-          {productsData.map((e) => <ProductCard key={e.CategoryID} content={e} />)}
+          {productsData.map((e : any) => (
+            <ProductCard key={e.CategoryID} content={e} />
+          ))}
         </div>
       </div>
       <div className="bg-gradient-to-r from-white to-red-50 items-center">
         <div className="p-5 flex justify-center items-center mt-20 flex-col">
           <div className="text-3xl md:text-5xl font-semibold mt-9 text-center">Customers Reviews</div>
           <div className="mt-12">
-            <Image src={Leaf} alt="Failed" className="mx-auto"/>
+            <Image src={Leaf} alt="Failed" className="mx-auto" />
           </div>
         </div>
         <div className="flex flex-row overflow-x-auto gap-4 p-8">
-          {reviewsData.map((review) => (
+          {reviewsData.map((review : any)=> (
             <ReviewCard 
               key={review.ReviewID} 
               rating={review.Rating} 
