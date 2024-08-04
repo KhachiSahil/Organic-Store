@@ -22,7 +22,7 @@ model Admin {
 
 model Users{
   UserID Int @id @default(autoincrement())
-  UserName String @db.VarChar(50)
+  UserName String @db.VarChar(50) @unique
   Email String @db.VarChar(100) @unique
   PasswordHash String @db.VarChar(255)
   Orders Orders []
@@ -84,7 +84,7 @@ model Reviews {
 
 model Cart{
   CardID Int @id @default(autoincrement())
-  UserID Int
+  UserID Int @unique
   CreatedAt DateTime @updatedAt
   Users Users @relation(fields: [UserID],references: [UserID])
   CartItems CartItems []
@@ -92,9 +92,9 @@ model Cart{
 
 model CartItems{
   CartItemID Int @id @default(autoincrement())
-  CardID Int
+  CartID Int
   ProductID Int
   Quantity Int
-  Cart Cart @relation(fields: [CardID],references: [CardID])
+  Cart Cart @relation(fields: [CartID],references: [CardID])
   Products Products @relation(fields: [ProductID],references: [ProductID])
 }

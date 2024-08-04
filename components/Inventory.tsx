@@ -33,7 +33,9 @@ export default function Inventory({ product }: InventoryProps) {
     const { data: session, status } = useSession();
     const userID = session?.user?.name
     
-
+    const addCart = () =>{
+        
+    }
 
 
     useEffect(() => {
@@ -91,7 +93,7 @@ export default function Inventory({ product }: InventoryProps) {
                     <div>{product.Description}</div>
                     <div>
                         <input className="w-10 mr-7" type="number" defaultValue="1" />
-                        <button className="bg-lime-700 p-2 w-64 hover:bg-lime-500 rounded-md text-white font-bold">ADD TO CART</button>
+                        <button onClick={addCart} className="bg-lime-700 p-2 w-64 hover:bg-lime-500 rounded-md text-white font-bold">ADD TO CART</button>
                     </div>
                     <div className="border-t-2">
                         Categories: <span className="text-lime-500">{product.Category?.CategoryName}</span>

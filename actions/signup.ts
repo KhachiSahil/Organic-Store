@@ -14,13 +14,18 @@ interface schema  {
         }
     })
     if(!response){
-        await prisma.users.create({
+       const newUser =  await prisma.users.create({
             data:{
                 Email:email,
                 PasswordHash:password,
                 UserName:username
             }
 
+        })
+        await prisma.cart.create({
+            data : {
+                UserID : newUser.UserID
+            }
         })
         return {success:true}
     }else{
