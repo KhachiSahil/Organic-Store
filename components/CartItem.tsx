@@ -25,7 +25,7 @@ export default function CartItem({ items, onQuantityUpdate, onRemove }: CartItem
 
     const handleQuantityChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const newValue = Number(e.target.value);
-        setValue(newValue > 0 ? newValue : 1);
+        setValue(newValue >= 0 ? newValue : 1);
     };
 
     const handleUpdateClick = () => {

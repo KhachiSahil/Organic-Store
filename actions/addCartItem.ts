@@ -9,7 +9,6 @@ interface ItemData {
 
 export default async function addCartItem({ cartID, productID, quantity }: ItemData): Promise<string> {
   try {
-    console.log(cartID)
     if (quantity <= 0) {
       throw new Error("Quantity must be greater than zero.");
     }

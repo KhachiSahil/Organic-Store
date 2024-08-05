@@ -34,7 +34,6 @@ export default function ProductLayout() {
         const getData = async () => {
             setLoading(true);
             const productData = await getProduct(category, page, 9);
-            console.log(productData);
             const transformedData = productData.map((item: any) => ({
                 ...item,
                 Category: item.Category || { CategoryName: '' }

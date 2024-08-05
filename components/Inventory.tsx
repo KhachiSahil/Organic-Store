@@ -95,20 +95,20 @@ export default function Inventory({ product }: InventoryProps) {
     return (
         <div className="bg-gray-100 justify-center items-center">
             <div className="flex gap-10 flex-wrap flex-col md:flex-row justify-center items-center pt-10">
-                <div className="min:w-3/12 md:w-3/12 w-2/3 h-5/12 md:h-4/12">
+                <div className="min-w-3/12 md:w-3/12 w-2/3 h-5/12 md:h-4/12">
                     <div ref={imageMoveContainerRef} className="relative flex justify-center items-center h-full w-full pr-8 cursor-pointer overflow-hidden">
                         <img className="h-full w-full object-contain" alt={product.ProductName} src={product.ImageUrl} />
                     </div>
                 </div>
                 <div className="flex flex-col gap-9 min:w-3/12 w-2/3 md:w-5/12">
-                    <div className="text-4xl font-semibold mt-5">{product.ProductName}</div>
+                    <div className="text-2xl md:text-4xl font-semibold mt-5">{product.ProductName}</div>
                     <div className="text-xl font-bold">
                         ${product.Price} <span className="font-normal">+ Free Shipping</span>
                     </div>
-                    <div>{product.Description}</div>
+                    {/* <div>{product.Description}</div> */}
                     <div>
-                        <input className="w-10 mr-7" type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
-                        <button onClick={addCart} className="bg-lime-700 p-2 w-64 hover:bg-lime-500 rounded-md text-white font-bold">ADD TO CART</button>
+                        <input className="w-14 md:w-10 mr-7" type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
+                        <button onClick={addCart} className="bg-lime-700 p-2 w-48 md:w-64 hover:bg-lime-500 rounded-md text-white font-bold">ADD TO CART</button>
                     </div>
                     <div className="border-t-2">
                         Categories: <span className="text-lime-500">{product.Category?.CategoryName}</span>
@@ -116,7 +116,7 @@ export default function Inventory({ product }: InventoryProps) {
                 </div>
             </div>
             <div className="mt-14">
-                <div className="flex gap-5 m-14 justify-center items-center pr-10">
+                <div className="flex gap-5 m-4 md:m-14 justify-center items-center pr-10">
                     <div
                         className={`border font-bold bg-slate-300 p-3 rounded-md cursor-pointer hover:bg-slate-200 ${isDisc ? 'active:border-lime-600' : ''}`}
                         onClick={() => setIsDisc(true)}
@@ -132,12 +132,12 @@ export default function Inventory({ product }: InventoryProps) {
                 </div>
                 <div className="flex items-center justify-center">
                     {isDisc ? (
-                        <div className="m-3 text-xl w-2/3 md:w-1/2 rounded-md bg-slate-200 p-7 font-medium font-serif">
+                        <div className="m-3 text-xl w-10/12 md:w-2/3 rounded-md bg-slate-200 p-7 font-medium font-serif">
                             {product.Description}
                         </div>
                     ) : (
-                        <div className="md:w-1/2 bg-slate-200 flex flex-col justify-center items-center p-5 rounded-md">
-                            <div className="md:w-1/2">
+                        <div className="w-10/12 md:w-1/2 bg-slate-200 flex flex-col justify-center items-center p-5 rounded-md">
+                            <div className="w-full md:w-3/4">
                                 <form onSubmit={handleReviewSubmit}>
                                     <div className="m-3">
                                         {[1, 2, 3, 4, 5].map((star) => (
