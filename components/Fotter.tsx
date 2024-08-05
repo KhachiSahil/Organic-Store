@@ -15,7 +15,7 @@ export default function Footer() {
                 <div className="text-white flex flex-col">
                     <div className="text-xl font-semibold">Quick Links</div>
                     <Link href="/About">About</Link>
-                    <Link href="/">Contact</Link>
+                    <Link href="https://github.com/KhachiSahil/Organic-Store">Contact</Link>
                     <Link href={{pathname : 'Shop' , query : {category : 'Groceries'}}}>Groceries</Link>
                     <Link href={{pathname : 'Shop' , query : {category : 'Juices'}}}>Juices</Link>
                 </div>

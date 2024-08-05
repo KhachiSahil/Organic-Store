@@ -5,6 +5,8 @@ import { useZoomImageMove } from "@zoom-image/react";
 import { useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import Reviews from "@/actions/Reviews";
+import addCartItem from "@/actions/addCartItem";
+import { userInfo } from "@/actions/serverFunction";
 
 interface Product {
     ProductID: number;
@@ -27,19 +29,32 @@ export default function Inventory({ product }: InventoryProps) {
     const [isDisc, setIsDisc] = useState(true);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
+    const [quantity, setQuantity] = useState(1);
     const imageMoveContainerRef = useRef<HTMLDivElement>(null);
     const { createZoomImage: createZoomImageMove } = useZoomImageMove();
     const [relatedProducts, setRelatedProducts] = useState<Product[]>([]);
     const { data: session, status } = useSession();
-    const userID = session?.user?.name
+    const userID = session?.user?.name;
     
-    const addCart = () =>{
-        
-    }
-
+    const addCart = async () => {
+        if (userID) {
+            const cartID = await userInfo();
+            try {
+                if(cartID){
+                    const message = await addCartItem({ cartID , productID: product.ProductID, quantity });
+                    alert(message);
+                }
+            } catch (error) {
+                console.error("Failed to add item to cart:", error);
+                alert("Failed to add item to cart. Please try again.");
+            }
+        } else {
+            alert("You need to be logged in to add items to the cart.");
+        }
+    };
 
     useEffect(() => {
-        const imageContainer = imageMoveContainerRef.current as HTMLDivElement; 
+        const imageContainer = imageMoveContainerRef.current as HTMLDivElement;
         createZoomImageMove(imageContainer, {
             zoomImageSource: product.ImageUrl || "/default-image.jpg",
         });
@@ -92,7 +107,7 @@ export default function Inventory({ product }: InventoryProps) {
                     </div>
                     <div>{product.Description}</div>
                     <div>
-                        <input className="w-10 mr-7" type="number" defaultValue="1" />
+                        <input className="w-10 mr-7" type="number" value={quantity} onChange={(e) => setQuantity(Number(e.target.value))} />
                         <button onClick={addCart} className="bg-lime-700 p-2 w-64 hover:bg-lime-500 rounded-md text-white font-bold">ADD TO CART</button>
                     </div>
                     <div className="border-t-2">

@@ -37,7 +37,7 @@ export default function Appbar() {
             <Link href={{ pathname: 'Shop', query: { category: 'Groceries' } }}>Groceries</Link>
             <Link href={{ pathname: 'Shop', query: { category: 'Juices' } }}>Juices</Link>
             <Link href="/About">About</Link>
-            <Link href="/">Contact</Link>
+            <Link href="https://github.com/KhachiSahil/Organic-Store">Contact</Link>
           </div>
           <div className="flex absolute top-10 right-10 gap-5 md:right-3 lg:right-10">
             <Link href="/Cart"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="size-6">
@@ -76,7 +76,7 @@ function Sidebar({ closeBar }: SidebarProps) {
             <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href={{pathname : 'Shop' , query : {category : 'Groceries'}}}>Groceries</Link>
             <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href={{pathname : 'Shop' , query : {category : 'Juices'}}}>Juices</Link>
             <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/About">About</Link>
-            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="/">Contact</Link>
+            <Link className="bg-white hover:bg-slate-300 pl-3 pt-3 pb-3 border-t-2 border-slate-300" href="https://github.com/KhachiSahil/Organic-Store">Contact</Link>
           </div>
       </div>
     </>

@@ -1,4 +1,5 @@
 // serverFunctions.ts
+"use server"
 import { getServerSession } from "next-auth";
 import { NEXT_AUTH_CONFIG } from "@/app/lib/auth";
 import prisma from "@/db";
@@ -6,13 +7,32 @@ import signup from "@/actions/signup";
 
 export async function getUser() {
   const session = await getServerSession(NEXT_AUTH_CONFIG);
-  if(session){
+  if (session) {
     const data = {
       username: session.user.name,
       email: session.user.email,
       password: session.user.id
     }
     await signup(data);
+  }
+}
+
+export async function userInfo() {
+  const session = await getServerSession(NEXT_AUTH_CONFIG);
+  if (session) {
+    const data = await prisma.users.findFirst({
+      where: {
+        UserName: session.user.name
+      }
+    })
+    if (data) {
+      const cartInfo = await prisma.cart.findFirst({
+        where: {
+          UserID: data.UserID
+        }
+      })
+      return cartInfo?.CartID
+    }
   }
 }
 
@@ -58,3 +78,19 @@ export async function getReviews() {
 export async function getProducts() {
   return await prisma.products.findMany({ take: 4 });
 }
+
+export async function getItem() {
+  const CartID = await userInfo();
+  if (CartID) {
+    const data = await prisma.cartItems.findMany({
+      where: {
+        CartID
+      },
+      include: {
+        Products: true
+      }
+    });
+    return data;
+  }
+  return [];
+};

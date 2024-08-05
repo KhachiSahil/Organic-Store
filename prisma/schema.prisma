@@ -83,7 +83,7 @@ model Reviews {
 }
 
 model Cart{
-  CardID Int @id @default(autoincrement())
+  CartID Int @id @default(autoincrement())
   UserID Int @unique
   CreatedAt DateTime @updatedAt
   Users Users @relation(fields: [UserID],references: [UserID])
@@ -95,6 +95,6 @@ model CartItems{
   CartID Int
   ProductID Int
   Quantity Int
-  Cart Cart @relation(fields: [CartID],references: [CardID])
+  Cart Cart @relation(fields: [CartID],references: [CartID])
   Products Products @relation(fields: [ProductID],references: [ProductID])
 }
