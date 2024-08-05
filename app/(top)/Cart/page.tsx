@@ -5,7 +5,7 @@ import { getItem } from "@/actions/serverFunction";
 import CartItem from "@/components/CartItem";
 import Checkout from "@/components/checkout";
 import Loader from "@/components/Loader";
-import { deleteCartItem } from "@/actions/dbFunctions"; // Import the function
+import { deleteCartItem } from "@/actions/serverFunction"; // Import the function
 
 interface CartItem {
     CartItemID: number;
