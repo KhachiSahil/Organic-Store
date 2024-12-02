@@ -46,7 +46,7 @@ export default function ProductLayout() {
 
     return (
         <div className="flex justify-center gap-5 py-10 flex-col md:flex-row bg-gray-100">
-            <div className="w-64 flex flex-col ml-12 items-center md:justify-normal gap-6">
+            {/* <div className="w-64 flex flex-col ml-12 items-center md:justify-normal gap-6">
                 <div>
                     <div className="font-medium text-2xl font-serif">Filter by Price</div>
                     <input
@@ -74,7 +74,7 @@ export default function ProductLayout() {
                         </label>
                     </div>
                 </div>
-            </div>
+            </div> */}
             <div className="md:border-l-2">
                 {loading ? (
                     <div className="flex pl-96 pr-10 justify-center items-center w-full h-full">
